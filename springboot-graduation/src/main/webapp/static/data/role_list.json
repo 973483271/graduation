@@ -1,0 +1,23 @@
+{
+  "msg": "请求成功",
+  "total": 2,
+  "code": 0,
+  "rows": [
+    {
+      "roleId": 1,
+      "name": "系统管理员",
+      "remark": "系统管理员",
+      "deptId": null,
+      "createTime": "2019-10-30 01:03:14",
+      "updateTime": "2019-10-30 01:03:14"
+    },
+    {
+      "roleId": 2,
+      "name": "网站运维",
+      "remark": "网站运维",
+      "deptId": null,
+      "createTime": "2019-10-30 01:03:52",
+      "updateTime": "2019-11-06 02:03:38"
+    }
+  ]
+}

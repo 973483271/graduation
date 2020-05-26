@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bysj.sys.mapper.StudentMapper">
+    <select id="getHasAlreadyChooseTopicStudentData" resultType="com.bysj.sys.entity.User_Student">
+     SELECT * FROM (SELECT s2.stu_id,s2.stu_name,s6.coll_name AS stu_college,s5.edu_name
+        AS stu_education,s3.class_name AS stu_class,s1.t_title AS stu_topicTitle
+        FROM sys_topic s1 JOIN sys_student s2 JOIN sys_class s3 JOIN sys_student_education s4
+        JOIN sys_education s5 JOIN sys_college s6
+        ON  s1.t_status='3' AND s1.t_chooseStudent=s2.stu_id AND s2.stu_class = s3.stu_class
+        AND s2.stu_id = s4.stu_id AND s4.edu_id=s5.edu_id AND s5.coll_id=s6.coll_id) AS A
+        <where>
+            <if test="inputData!=null">
+                AND (A.stu_college LIKE #{inputData} OR A.stu_education LIKE #{inputData}
+                OR A.stu_class LIKE #{inputData})
+            </if>
+        </where>
+    </select>
+    
+    <select id="getNotChooseTopicStudentSituation" resultType="com.bysj.sys.entity.User_Student">
+      SELECT * FROM (SELECT A.stu_id,A.stu_name,s4.edu_name AS stu_education,s5.coll_name AS stu_college,s6.class_name AS stu_class FROM
+      (SELECT * FROM sys_topic s1 RIGHT JOIN sys_student s2
+        ON s1.t_chooseStudent = s2.stu_id)AS A JOIN sys_student_education s3 JOIN sys_education s4
+        JOIN sys_college s5 JOIN sys_class s6 ON A.stu_id =s3.stu_id AND s3.edu_id=s4.edu_id
+        AND s4.coll_id=s5.coll_id AND A.stu_class=s6.stu_class AND (A.t_no is NULL OR A.t_status!=3) ) AS A2
+        <where>
+            <if test="iData!=null">
+                AND (A2.stu_college LIKE #{iData} OR A2.stu_education LIKE #{iData}
+                OR A2.stu_class LIKE #{iData})
+            </if>
+        </where>
+    </select>
+
+    <select id="getCollIdByStudentId" resultType="java.lang.Integer">
+        SELECT s3.coll_id FROM sys_student_education s1 JOIN sys_education s2 JOIN sys_college s3
+          ON s1.edu_id = s2.edu_id AND s2.coll_id = s3.coll_id WHERE s1.stu_id = #{id}
+    </select>
+
+    <insert id="importUserData" parameterType="com.bysj.sys.entity.User_Student" >
+        insert into sys_user(user_id, password, usertype, status) values
+        <foreach collection ="list" item="l" index= "index" separator =",">
+            (#{l.stuId}, #{l.password}, #{l.usertype}, #{l.status})
+        </foreach>
+    </insert>
+    
+    <insert id="importStudentData" parameterType="com.bysj.sys.entity.User_Student">
+        insert into sys_student(stu_id,stu_name,stu_class,stu_telphone,stu_email,stu_school,stu_update_time)  values
+        <foreach collection ="list" item="l" index= "index" separator =",">
+            (#{l.stuId}, #{l.stuName}, #{l.stuClass}, #{l.stuTelphone},#{l.stuEmail},#{l.stuSchool},DEFAULT)
+        </foreach>
+    </insert>
+
+    <insert id="importStudentEduData" parameterType="com.bysj.sys.entity.User_Student">
+        insert into sys_student_education(stu_id,edu_id)  values
+        <foreach collection ="list" item="l" index= "index" separator =",">
+            (#{l.stuId}, #{l.stuEducationId})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,18 @@
+{
+  "msg": "请求成功",
+  "urls": [
+    {
+      "msg": "请求成功",
+      "code": 0,
+      "name": "539537B0DFA64B3EAABEFE28AFC138671.jpg",
+      "url": "http://localhost:8080/admin/upload/539537B0DFA64B3EAABEFE28AFC138671.jpg"
+    },
+    {
+      "msg": "请求成功",
+      "code": 0,
+      "name": "8823E103BD854A71A13A7CAA8C0A9C6F2.jpg",
+      "url": "http://localhost:8080/admin/upload/8823E103BD854A71A13A7CAA8C0A9C6F2.jpg"
+    }
+  ],
+  "code": 0
+}

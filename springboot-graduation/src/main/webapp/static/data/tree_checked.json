@@ -1,0 +1,28 @@
+[
+  {
+    "id": 15,
+    "parentId": "0.0.0",
+    "state": {
+      "checked": true,
+      "disabled": false,
+      "expanded": false,
+      "selected": false,
+      "visible": true
+    },
+    "text": "查询用户",
+    "level": 3,
+    "index": 0,
+    "nodeId": "0.0.0.0",
+    "selectable": true,
+    "checkable": true,
+    "$el": {
+      "0": {},
+      "length": 1,
+      "prevObject": {
+        "0": {},
+        "length": 1
+      }
+    },
+    "searchResult": false
+  }
+]

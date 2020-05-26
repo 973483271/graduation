@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bysj.sys.mapper.TeacherMapper">
+    <select id="getTeacherNameAndIdByStudentId" resultType="com.bysj.sys.entity.Teacher">
+        SELECT s4.tea_id,s4.tea_name FROM
+          sys_student_education s1 JOIN sys_education s2 JOIN sys_teacher_college s3 JOIN sys_teacher s4
+           ON s1.edu_id = s2.edu_id
+             AND s2.coll_id = s3.coll_id
+           AND s4.tea_id = s3.tea_id
+             AND s1.stu_id = #{stuId}
+    </select>
+    
+    <insert id="importUserData" parameterType="com.bysj.sys.entity.User_Teacher" >
+        insert into sys_user(user_id, password, usertype, status) values
+        <foreach collection ="list" item="l" index= "index" separator =",">
+            (#{l.teaId}, #{l.password}, #{l.usertype}, #{l.status})
+        </foreach>
+    </insert>
+    
+    <insert id="importTeacherData" parameterType="com.bysj.sys.entity.User_Teacher">
+        insert into sys_teacher(tea_id,tea_name,tea_education,tea_telphone,tea_email,tea_school,tea_update_time)  values
+        <foreach collection ="list" item="l" index= "index" separator =",">
+            (#{l.teaId}, #{l.teaName}, #{l.teaEducation}, #{l.teaTelphone},#{l.teaEmail},#{l.teaSchool},DEFAULT)
+        </foreach>
+    </insert>
+    
+    <insert id="importTeacherCollData" parameterType="com.bysj.sys.entity.User_Teacher">
+        insert into sys_teacher_college(tea_id,coll_id)  values
+        <foreach collection ="list" item="l" index= "index" separator =",">
+            (#{l.teaId}, #{l.teaCollId})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,99 @@
+{
+  "msg": "请求成功",
+  "code": 0,
+  "data": [
+    {
+      "id": 61,
+      "parentId": 0,
+      "state": {},
+      "url": "",
+      "icon": "fa fa-home",
+      "text": "主页",
+      "nodes": [
+        {
+          "id": 62,
+          "parentId": 61,
+          "state": {},
+          "url": "",
+          "icon": "",
+          "text": "控制台",
+          "nodes": []
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "parentId": 0,
+      "state": {},
+      "url": "",
+      "icon": "fa fa-cog",
+      "text": "系统管理",
+      "nodes": [
+        {
+          "id": 2,
+          "parentId": 1,
+          "state": {},
+          "url": "sys/user",
+          "icon": "",
+          "text": "用户管理",
+          "nodes": []
+        },
+        {
+          "id": 3,
+          "parentId": 1,
+          "state": {},
+          "url": "sys/role",
+          "icon": "",
+          "text": "角色管理",
+          "nodes": []
+        },
+        {
+          "id": 4,
+          "parentId": 1,
+          "state": {},
+          "url": "sys/resource",
+          "icon": "",
+          "text": "资源管理",
+          "nodes": []
+        },
+        {
+          "id": 31,
+          "parentId": 1,
+          "state": {},
+          "url": "sys/dept",
+          "icon": "",
+          "text": "部门管理",
+          "nodes": []
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "parentId": 0,
+      "state": {},
+      "url": "",
+      "icon": "fa fa-bar-chart-o",
+      "text": "统计分析",
+      "nodes": [
+        {
+          "id": 64,
+          "parentId": 63,
+          "state": {},
+          "url": "",
+          "icon": "",
+          "text": "访客统计",
+          "nodes": []
+        },
+        {
+          "id": 65,
+          "parentId": 63,
+          "state": {},
+          "url": "",
+          "icon": "",
+          "text": "订单统计",
+          "nodes": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bysj.sys.mapper.UserMapper">
+
+    <!--获取用户权限集合-->
+    <select id="selectUserPermissionNameSet" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT
+        DISTINCT t1.permission
+        FROM
+        sys_resource t1,
+        sys_role_resource t2,
+        sys_user t3
+        WHERE
+        t1.permission IS NOT NULL
+        AND
+        t1.resource_id = t2.resource_id
+        AND
+        t2.role_id = t3.usertype
+        AND t3.user_id = #{userId}
+    </select>
+
+    <!--获取菜单树-->
+    <select id="selectMenuList" resultType="com.bysj.sys.entity.Menu" parameterType="java.lang.String">
+        SELECT
+        t1.resource_id,
+        t1.parent_id,
+        t1.name,
+        t1.url,
+        t1.icon
+        FROM
+        sys_resource t1,
+        sys_role_resource t2,
+        sys_user t3
+        WHERE
+        t1.resource_id = t2.resource_id
+        AND t2.role_id = t3.usertype
+        AND t1.type != 2
+        AND t3.user_id = #{userId}
+        ORDER BY order_num ASC
+    </select>
+
+    <select id="getProcessControlData" resultType="com.bysj.sys.entity.Quartz">
+        SELECT * FROM sys_quartz
+    </select>
+
+    <update id="setProcessControlData" parameterType="com.bysj.sys.entity.Quartz" >
+       UPDATE sys_quartz s set s.q_cron=#{qCron},s.q_status=#{qStatus}
+       WHERE s.q_name=#{qName}
+    </update>
+
+    <update id="updateResource" >
+        UPDATE sys_resource s SET s.permission = #{permission} WHERE s.resource_id=#{id}
+    </update>
+
+</mapper>

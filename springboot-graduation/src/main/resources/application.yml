@@ -1,0 +1,30 @@
+server:
+  port: 8888
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/graduation?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    #url: jdbc:mysql://123.57.69.227:3306/graduation?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    hikari:
+       max-lifetime: 3600000
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /WEB-INF/jsp/
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  freemarker:
+    check-template-location: false
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/sys/*Mapper.xml
+
+upload:
+      file:
+           path: "E:/file/"
+

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bysj.sys.mapper.AdminMapper">
+    <!--按条件查找审题小组信息-->
+    <select id="getexamin_teachersList" resultType="com.bysj.sys.entity.User_Examinteacher">
+        SELECT * FROM ( SELECT s2.*,s1.`status`,s1.`password`,s3.coll_name AS tea_college
+        FROM sys_user s1 JOIN sys_examinteacher s2
+        JOIN sys_college s3
+        JOIN sys_teacher_college s4
+        ON s1.user_id = s2.examintea_id
+        AND s2.examintea_id=s4.tea_id
+        AND s4.coll_id = s3.coll_id) AS A
+        <where>
+            <if test="teaId!=null">
+                AND A.examintea_id LIKE #{teaId}
+            </if>
+            <if test="teaName!=null">
+                AND A.examintea_name LIKE #{teaName}
+            </if>
+            <if test="status!=null">
+                AND A.status LIKE #{status}
+            </if>
+            <if test="teaEducation!=null">
+                AND A.examintea_education LIKE #{teaEducation}
+            </if>
+            <if test="teaCollege!=null">
+                AND A.tea_college LIKE #{teaCollege}
+            </if>
+        </where>
+    </select>
+    <!--按条件查找学生信息-->
+    <select id="getStudentsList" resultType="com.bysj.sys.entity.User_Student">
+        SELECT * FROM ( SELECT s2.stu_id,s2.stu_name,s2.stu_telphone,s2.stu_email,
+        s2.stu_school,s2.stu_update_time,s1.`status`,s1.`password`,
+        s4.edu_name AS stu_education,s5.coll_name AS stu_college,s6.class_name AS stu_class
+        FROM sys_user s1 JOIN sys_student s2
+        JOIN sys_student_education s3 JOIN sys_education s4
+        JOIN sys_college s5
+        JOIN sys_class s6
+        ON s1.user_id = s2.stu_id
+        AND s2.stu_id = s3.stu_id
+        AND s3.edu_id=s4.edu_id
+        AND s4.coll_id=s5.coll_id
+        AND s2.stu_class=s6.stu_class) AS A
+        <where>
+            <if test="stuId!=null">
+                AND A.stu_id LIKE #{stuId}
+            </if>
+            <if test="stuName!=null">
+                AND A.stu_name LIKE #{stuName}
+            </if>
+            <if test="status!=null">
+                AND A.status LIKE #{status}
+            </if>
+            <if test="stuClass!=null">
+                AND A.stu_class LIKE #{stuClass}
+            </if>
+            <if test="stuCollege!=null">
+                AND A.stu_college LIKE #{stuCollege}
+            </if>
+            <if test="stuEducation!=null">
+                AND A.stu_education LIKE #{stuEducation}
+            </if>
+
+        </where>
+    </select>
+    <!--按条件查找教师信息-->
+    <select id="getTeachersList" resultType="com.bysj.sys.entity.User_Teacher">
+        SELECT * FROM ( SELECT s2.*,s1.`status`,s1.`password`,s3.coll_name AS tea_college
+        FROM sys_user s1 JOIN sys_teacher s2
+        JOIN sys_college s3
+        JOIN sys_teacher_college s4
+        ON s1.user_id = s2.tea_id
+        AND s2.tea_id=s4.tea_id
+        AND s4.coll_id = s3.coll_id) AS A
+        <where>
+            <if test="teaId!=null">
+                AND A.tea_id LIKE #{teaId}
+            </if>
+            <if test="teaName!=null">
+                AND A.tea_name LIKE #{teaName}
+            </if>
+            <if test="status!=null">
+                AND A.status LIKE #{status}
+            </if>
+            <if test="teaEducation!=null">
+                AND A.tea_education LIKE #{teaEducation}
+            </if>
+            <if test="teaCollege!=null">
+                AND A.tea_college LIKE #{teaCollege}
+            </if>
+        </where>
+    </select>
+</mapper>

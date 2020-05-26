@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bysj.sys.mapper.TopicMapper">
+    <select id="getAssignTopics" resultType="com.bysj.sys.entity.MyTopic">
+        SELECT * FROM  (SELECT * FROM sys_topic s1
+        WHERE  s1.t_makeTeacher=#{teaId} AND (s1.t_status=1 OR s1.t_status=2 OR s1.t_status=-1 OR s1.t_status=3) ORDER BY s1.t_no) AS A
+        <where>
+            <if test="tTitle!=null">
+                AND A.t_title LIKE #{tTitle} OR A.t_source LIKE #{tTitle}
+            </if>
+        </where>
+    </select>
+
+    <select id="getMaxTno" resultType="java.lang.String">
+        SELECT MAX(s1.t_no) FROM sys_topic s1
+    </select>
+
+    <select id="getAssignTopicByTopicNo" resultType="com.bysj.sys.entity.MyTopic">
+        SELECT * FROM sys_topic s
+        WHERE  s.t_no= #{tNo}
+    </select>
+    
+    <select id="getExaminTopicList" resultType="com.bysj.sys.entity.MyTopic">
+        SELECT * FROM  (SELECT * FROM sys_topic s1
+        WHERE  s1.t_makeTeacher=#{teaId} AND (s1.t_status=0)
+         AND s1.t_source='学生自拟') AS A
+        <where>
+            <if test="tTitle!=null">
+                AND A.t_title LIKE #{tTitle} OR A.t_no LIKE #{tTitle}
+            </if>
+        </where>
+    </select>
+    
+
+    <select id="getMaketeacherAppointEducation" resultType="com.bysj.sys.entity.AssignTopicSituation">
+       SELECT s1.t_makeTeacher AS teacherId,COUNT(*) AS teacherTopicNum
+        FROM sys_topic s1 WHERE s1.t_eduId=#{eduId}
+        GROUP BY s1.t_makeTeacher
+    </select>
+
+    <select id="getTopicListForStudentsToChoose" resultType="com.bysj.sys.entity.MyTopic">
+      SELECT * FROM(SELECT s1.*,s2.edu_name AS tEducation,s3.tea_name AS tTeacherName
+        FROM sys_topic s1 JOIN sys_education s2 JOIN sys_teacher s3
+        ON s1.t_eduId=s2.edu_id AND s1.t_makeTeacher=s3.tea_id
+        AND s1.t_eduId=#{eduId} AND	s1.t_chooseStudent IS NULL AND s1.t_status=2) AS A
+        <where>
+            <if test="tmakeTeacher!=null">
+                AND A.tTeacherName LIKE #{tmakeTeacher} OR A.t_title LIKE #{tmakeTeacher}
+            </if>
+        </where>
+    </select>
+
+    <update id="chooseTopicByStudentDisagree" parameterType="java.lang.String">
+        UPDATE sys_topic s1 SET s1.t_chooseStudent =null WHERE s1.t_no= #{id}
+    </update>
+    
+    <select id="getExaminteacherAppointEducation" resultType="com.bysj.sys.entity.AssignTopicSituation">
+        SELECT s1.t_examinTeacher AS teacherId,COUNT(*) AS examinTopicNumByExaminTea
+        FROM sys_topic s1 WHERE s1.t_eduId=#{eduId} AND s1.t_examinTeacher IS NOT NULL
+        GROUP BY s1.t_examinTeacher
+    </select>
+</mapper>
